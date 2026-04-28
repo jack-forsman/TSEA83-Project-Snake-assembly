@@ -1,5 +1,5 @@
 # Files in the project. Make sure the first file is the top module
-VHD = uprogCPU.vhd Mem/uMem.vhd Mem/pMem.vhd
+VHD = uprogCPU.vhd vga_motor.vhd Mem/uMem.vhd Mem/pMem.vhd Mem/K1Mem.vhd Mem/K2Mem.vhd
 
 # Design constraints file
 XDC = Basys3.xdc

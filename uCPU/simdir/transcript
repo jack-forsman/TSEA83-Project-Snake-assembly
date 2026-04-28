@@ -1,4 +1,4 @@
-# //  ModelSim SE-64 2021.3 Jul 13 2021 Linux 4.18.0-553.117.1.el8_10.x86_64
+# //  ModelSim SE-64 2021.3 Jul 13 2021 Linux 4.18.0-553.120.1.el8_10.x86_64
 # //
 # //  Copyright 1991-2021 Mentor Graphics Corporation
 # //  All Rights Reserved.
@@ -12,8 +12,8 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim -voptargs="+acc" -L work work.uprogCPU_tb 
-# Start time: 20:00:34 on Apr 20,2026
-# ** Note: (vsim-3812) Design is being optimized...
+# Start time: 15:00:00 on Apr 28,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -22,5 +22,57 @@
 # Loading work.uprogcpu(func)#1
 # Loading work.umem(behavioral)#1
 # Loading work.pmem(behavioral)#1
-# End time: 20:01:10 on Apr 20,2026, Elapsed time: 0:00:36
-# Errors: 0, Warnings: 0
+# Loading work.k1mem(behavioral)#1
+# Loading work.k2mem(behavioral)#1
+# Loading work.vga_motor(behavioral)#1
+add wave -r /*
+run 500 ns
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."<": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U4
+# ** Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U4
+# ** Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U4
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U4
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U3
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U0
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 5 ns  Iteration: 2  Instance: /uprogcpu_tb/uut/U0
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 5 ns  Iteration: 2  Instance: /uprogcpu_tb/uut/U4
+# Causality operation skipped due to absence of debug database file
+# End time: 15:04:52 on Apr 28,2026, Elapsed time: 0:04:52
+# Errors: 0, Warnings: 23
