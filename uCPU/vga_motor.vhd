@@ -133,8 +133,6 @@ begin
         -- Video blanking signal (aktiv vid vit & blå yta)
 	blank1 <= '0' when (Xpixel1 < 640) and (Ypixel1 < 480) else '1';
         -- xpixel < 640
-	
-
 
 	-- Video ram address composite
 	--VR_addr <= to_unsigned(20, 7) * Ypixel1(8 downto 5) + Xpixel1(9 downto 5);

@@ -27,7 +27,10 @@ architecture func of uprogCPU is
 	-- program Memory component
 	component pMem
                 port(pAddr : in unsigned(15 downto 0);
-			pData : out unsigned(23 downto 0));
+                           we : in std_logic; -- write enable
+                           clk : in std_logic;
+                           pData_i : in unsigned(23 downto 0);
+                           pData_o : out unsigned(23 downto 0)); 
 	end component;
 
         -- K1 Memory component
@@ -56,22 +59,6 @@ architecture func of uprogCPU is
 			Vsync    : out std_logic);
 	end component;
 
-        -- picture memory component
-        component video_ram
-		port (
-			clk       : in std_logic;
-			-- port 1
-			we1       : in std_logic;
-			data_in1  : in std_logic_vector(7 downto 0);
-			data_out1 : out std_logic_vector(7 downto 0);
-			addr1     : in unsigned(10 downto 0);
-			-- port 2
-			we2       : in std_logic;
-			data_in2  : in std_logic_vector(7 downto 0);
-			data_out2 : out std_logic_vector(7 downto 0);
-			addr2     : in unsigned(10 downto 0));
-	end component;
-
 	-- micro memory signals
 	signal uM : unsigned(25 downto 0); -- micro Memory output
         alias ALU : unsigned(3 downto 0) is uM(25 downto 22); -- ALU operations                                         
@@ -86,6 +73,8 @@ architecture func of uprogCPU is
 
 	-- program memory signals
 	signal PM : unsigned(23 downto 0); -- Program Memory output
+        signal WE : std_logic; -- Program Memory Write Enable
+        signal PMI : unsigned (23 downto 0); -- Program Memory input
 
         -- Instruction and adressmode memory signals
         signal K1 : unsigned(7 downto 0); -- K1 Memory output
@@ -158,6 +147,22 @@ begin
 				PC <= DATA_BUS(15 downto 0);
 			elsif (PCsig = '1') then
 				PC <= PC + 1;
+			end if;
+		end if;
+	end process;
+        
+        -- PM : Program Memory Write Enable
+	process(clk)
+	begin
+		if rising_edge(clk) then
+			if (rst = '1') then
+                          WE <= '0';
+                          PMI <= (others => '0');
+			elsif (FB = "0010") then
+                                WE <= '1';
+                                PMI <= DATA_BUS;
+			else
+				WE <= '0';
 			end if;
 		end if;
 	end process;
@@ -242,7 +247,7 @@ begin
 	U0 : uMem port map(uAddr=>uPC, uData=>uM);
 
 	-- program memory component connection
-	U1 : pMem port map(pAddr=>ASR, pData=>PM);
+	U1 : pMem port map(pAddr=>ASR, pData_i=>PMI, pData_o=>PM, clk=>clk, we=>WE);
 
         -- K1  memory component connection
         U2 : K1Mem port map(OP=>IR(23 downto 19), K1_data=>K1); -- OP=>IR 24 downto 20, K1_data=>K1? k1=op?
@@ -253,6 +258,9 @@ begin
         -- VGA motor component connection
 	U4 : vga_motor port map(clk=>clk, clear=>rst, vgaRed=>vgaRed, vgaGreen=>vgaGreen, vgaBlue=>vgaBlue, Hsync=>Hsync, Vsync=>Vsync);
 
+        -- VRAM/ROM comp connection behövs sen
+        -- för att koppla signaler från den till vga_motor
+        
         -- Adressavkodning
         -- CS_... when adr bus >= etc
         

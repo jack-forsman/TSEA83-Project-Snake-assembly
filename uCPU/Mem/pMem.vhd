@@ -2,11 +2,14 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
 
--- pMem interface
+-- pMem interface (LUT)
 entity pMem is
   port(
     pAddr : in unsigned(15 downto 0);
-    pData : out unsigned(23 downto 0));
+    we : in std_logic; -- write enable
+    clk : in std_logic;
+    pData_i : in unsigned(23 downto 0);
+    pData_o : out unsigned(23 downto 0));
 end pMem;
 
 architecture Behavioral of pMem is
@@ -19,11 +22,11 @@ constant p_mem_c : p_mem_t :=
    x"074000", -- LOAD GR7 AF
    x"0000AF", -- AF
    x"000000", -- LOAD GR0 PM(0) 
-   x"000000", -- 0
-   x"084000", -- JUMP PM(0)
-   x"000000", -- 0
-   x"000000",
-   x"000000",
+   x"120007", -- STORE, PM(7) := GR2(0)
+   x"084000", -- JUMP PM(next adr)
+   x"00000A", -- A
+   x"084000", 
+   x"00000F",
    x"000000",
    x"000000",
    x"000000",
@@ -34,7 +37,18 @@ constant p_mem_c : p_mem_t :=
   signal p_mem : p_mem_t := p_mem_c;
 
 
-begin  -- pMem
-  pData <= p_mem(to_integer(pAddr));
+begin -- pMem
+  -- Synkron skrivning
+  process(clk)
+  begin  
+    if rising_edge(clk) then
+      if we = '1' then
+         p_mem(to_integer(pAddr)) <= pData_i;
+      end if;
+    end if;
+  end process;
+
+-- kombinatorisk läsning
+  pData_o <= p_mem(to_integer(pAddr));
   
 end Behavioral;
