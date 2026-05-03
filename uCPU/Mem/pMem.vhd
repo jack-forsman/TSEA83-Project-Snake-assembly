@@ -25,8 +25,8 @@ constant p_mem_c : p_mem_t :=
    x"120007", -- STORE, PM(7) := GR2(0)
    x"084000", -- JUMP PM(next adr)
    x"00000A", -- A
-   x"084000", 
-   x"00000F",
+   x"084000", -- JUMP PM(next adr)
+   x"00000F", -- F 
    x"000000",
    x"000000",
    x"000000",

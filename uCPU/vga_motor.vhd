@@ -3,6 +3,7 @@
 -- Version 1.1: 2016-02-16, Anders Nilsson
 -- Version 1.2: 2023-01-11, Petter Kallstrom. Changelog: Corrected a pipeline mistake.
 -- Version 2.0: 2023-09-29. Anders Nilsson. 12-bit VGA.
+-- Edited by G52 2026
 
 
 -- library declaration
@@ -15,8 +16,8 @@ use IEEE.NUMERIC_STD.ALL;               -- IEEE library for the unsigned type
 entity vga_motor is
 	port (
 		clk      : in std_logic;
-		--VR_data  : in std_logic_vector(7 downto 0);
-		--VR_addr  : out unsigned(10 downto 0);
+		VR_data  : in std_logic_vector(7 downto 0);
+		VR_addr  : out unsigned(10 downto 0);
 		clear    : in std_logic;
 		vgaRed   : out std_logic_vector(3 downto 0);
 		vgaGreen : out std_logic_vector(3 downto 0);
@@ -34,8 +35,8 @@ architecture Behavioral of vga_motor is
 	signal ClkDiv : unsigned(1 downto 0);          -- Clock divisor, to generate 25 MHz signal
 	signal Clk25  : std_logic;                     -- One pulse width 25 MHz signal
 	
-	--signal CR_addr  : unsigned(10 downto 0);       -- address for CHAR_ROM
-	--signal CR_data : std_logic_vector(11 downto 0); -- data from CHAR_ROM.
+	signal CR_addr  : unsigned(10 downto 0);       -- address for CHAR_ROM
+	signal CR_data : std_logic_vector(11 downto 0); -- data from CHAR_ROM.
 	
 	signal blank1, blank2, blank : std_logic; -- blanking signal, with delayed versions
 	signal Hsync1, Hsync2 : std_logic;
@@ -135,7 +136,7 @@ begin
         -- xpixel < 640
 
 	-- Video ram address composite
-	--VR_addr <= to_unsigned(20, 7) * Ypixel1(8 downto 5) + Xpixel1(9 downto 5);
+	VR_addr <= to_unsigned(20, 7) * Ypixel1(8 downto 5) + Xpixel1(9 downto 5);
 	
 	-- VIDEO_RAM:
 	-- data <= mem(addr), with one clock cycle delay
@@ -153,9 +154,9 @@ begin
 	
 	
 	-- Character rom address:
-	--CR_addr <= unsigned(VR_data(4 downto 0)) & Ypixel2(4 downto 2) & Xpixel2(4 downto 2);
+	CR_addr <= unsigned(VR_data(4 downto 0)) & Ypixel2(4 downto 2) & Xpixel2(4 downto 2);
 	
-	--U0b : char_rom port map (clk=>clk, addr=>CR_addr, data=>CR_data); -- one clock cycle delay.
+	U0b : char_rom port map (clk=>clk, addr=>CR_addr, data=>CR_data); -- one clock cycle delay.
 
 	process(clk)
 	begin
@@ -168,18 +169,18 @@ begin
 	
 	
 	-- VGA generation : 4 bit red, 4 bit green ,4 bit blue
-	vgaRed(3)   <= '1' when blank = '0' else '0';
-	vgaRed(2)   <= '0' when blank = '0' else '0';
-	vgaRed(1)   <= '1' when blank = '0' else '0';
-	vgaRed(0)   <= '1' when blank = '0' else '0';
-	vgaGreen(3) <= '0' when blank = '0' else '0';
-	vgaGreen(2) <= '1' when blank = '0' else '0';
-	vgaGreen(1) <= '0' when blank = '0' else '0';
-	vgaGreen(0) <= '1' when blank = '0' else '0';
-	vgaBlue(3)  <= '1' when blank = '0' else '0';
-	vgaBlue(2)  <= '1' when blank = '0' else '0';
-	vgaBlue(1)  <= '1' when blank = '0' else '0';
-	vgaBlue(0)  <= '0' when blank = '0' else '0';
+	vgaRed(3)   <= CR_data(11) when blank = '0' else '0';
+	vgaRed(2)   <= CR_data(10) when blank = '0' else '0';
+	vgaRed(1)   <= CR_data(9) when blank = '0' else '0';
+	vgaRed(0)   <= CR_data(8) when blank = '0' else '0';
+	vgaGreen(3) <= CR_data(7) when blank = '0' else '0';
+	vgaGreen(2) <= CR_data(6) when blank = '0' else '0';
+	vgaGreen(1) <= CR_data(5) when blank = '0' else '0';
+	vgaGreen(0) <= CR_data(4) when blank = '0' else '0';
+	vgaBlue(3)  <= CR_data(3) when blank = '0' else '0';
+	vgaBlue(2)  <= CR_data(2) when blank = '0' else '0';
+	vgaBlue(1)  <= CR_data(1) when blank = '0' else '0';
+	vgaBlue(0)  <= CR_data(0) when blank = '0' else '0';
 	
 end Behavioral;
 

@@ -49,8 +49,8 @@ architecture func of uprogCPU is
         component vga_motor
 		port (
 			clk      : in std_logic;
-			--VR_data  : in std_logic_vector(7 downto 0); behövs sen
-			--VR_addr  : out unsigned(10 downto 0); behövs sen
+			VR_data  : in std_logic_vector(7 downto 0);
+			VR_addr  : out unsigned(10 downto 0); 
 			clear    : in std_logic;
 			vgaRed   : out std_logic_vector(3 downto 0);
 			vgaGreen : out std_logic_vector(3 downto 0);
@@ -59,6 +59,23 @@ architecture func of uprogCPU is
 			Vsync    : out std_logic);
 	end component;
 
+        -- picture memory component
+	component video_ram
+		port (
+			clk       : in std_logic;
+			-- port 1
+			we1       : in std_logic;
+			data_in1  : in std_logic_vector(7 downto 0);
+			data_out1 : out std_logic_vector(7 downto 0);
+			addr1     : in unsigned(10 downto 0);
+			-- port 2
+			we2       : in std_logic;
+			data_in2  : in std_logic_vector(7 downto 0);
+			data_out2 : out std_logic_vector(7 downto 0);
+			addr2     : in unsigned(10 downto 0));
+	end component;
+            
+
 	-- micro memory signals
 	signal uM : unsigned(25 downto 0); -- micro Memory output
         alias ALU : unsigned(3 downto 0) is uM(25 downto 22); -- ALU operations                                         
@@ -66,8 +83,6 @@ architecture func of uprogCPU is
 	alias FB : unsigned(3 downto 0) is uM(17 downto 14); -- from Bus
         alias S : std_logic is uM(13); -- Needed?
 	alias PCsig : std_logic is uM(12);  -- (0:PC=PC, 1:PC++)
-	--alias uPCsig : std_logic is uM(6); -- (0:uPC++, 1:uPC=uAddr) onödig,
-        --SEQ innehåller upc++ & upc = uaddr etc
         alias SEQ : unsigned(3 downto 0) is uM(11 downto 8); -- uPC operations
 	alias uAddr : unsigned(7 downto 0) is uM(7 downto 0); -- microadress
 
@@ -97,9 +112,17 @@ architecture func of uprogCPU is
         signal GR6 : unsigned(15 downto 0); -- General register 6
         signal GR7 : unsigned(15 downto 0); -- General register 7
         alias GRM : unsigned(2 downto 0) is IR(18 downto 16); -- General register MUX selector
+
+        -- intermediate signals between VIDEO_RAM and VGA_MOTOR
+	signal data_out2_s : std_logic_vector(7 downto 0); -- data
+	signal addr2_s     : unsigned(10 downto 0);        -- address
+
+        -- Address decoding signals
+        signal CS_DM : std_logic; -- Chip select datamemory
         
 	-- local combinatorials
-	signal DATA_BUS : unsigned(23 downto 0); -- Data Bus
+	signal DATA_BUS : unsigned(23 downto 0); -- Data Buss
+        signal ADR_BUS : unsigned (13 downto 0); -- Address buss (behov?)
 
 begin
         -- RST : Reset button on BASYS3
@@ -205,7 +228,8 @@ begin
 
 
         -- GRM : general register mux process (separat fil möjligt/bra?
-        --, with select? som vanlig mux?)
+        -- array? slipper case when, istället to_integer(grm) kan spara
+        -- slipper också 8 rader i TB
 	process(clk)
 	begin
 		if rising_edge(clk) then
@@ -237,7 +261,7 @@ begin
                             when "111" =>
                               GR7 <= DATA_BUS(15 downto 0);
                             when others =>
-                              GR0 <= DATA_BUS(15 downto 0);
+                              NULL;
                             end case;
                         end if;
 		end if;
@@ -256,13 +280,17 @@ begin
         U3 : K2Mem port map(M=>IR(15 downto 14), K2_data=>K2); -- M=>IR..., K2_data=>K2 kalla k2 för adrmod?
 
         -- VGA motor component connection
-	U4 : vga_motor port map(clk=>clk, clear=>rst, vgaRed=>vgaRed, vgaGreen=>vgaGreen, vgaBlue=>vgaBlue, Hsync=>Hsync, Vsync=>Vsync);
+	U4 : vga_motor port map(clk=>clk, clear=>rst, VR_data=>data_out2_s, VR_addr=>addr2_s, vgaRed=>vgaRed, vgaGreen=>vgaGreen, vgaBlue=>vgaBlue, Hsync=>Hsync, Vsync=>Vsync);
+
+        -- Picture memory component connection
+        -- 1 kopplad till cpu , 2 kopplad till vga motor
+        U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
 
         -- VRAM/ROM comp connection behövs sen
         -- för att koppla signaler från den till vga_motor
         
         -- Adressavkodning
-        -- CS_... when adr bus >= etc
+        -- dataminne, video_ram, io?
         
 	-- data bus assignment (sign extension bra?, slippa 15downto0 & "0000...?)
 	DATA_BUS <=  IR when (TB = "0001") else
