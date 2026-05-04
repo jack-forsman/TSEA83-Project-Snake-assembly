@@ -54,6 +54,8 @@ R0
 R0
 R0
 R0
+R0
+R0
 !s11e MIXED_VERSIONS
 13
 !s112 1.1
@@ -74,22 +76,21 @@ n@_opt
 Z6 OL;O;2021.3;73
 R1
 T_opt1
-!s110 1777910604
-Vn^DDM?eIO01nNVo=F>=0?1
+!s110 1777912194
+VChBm3V:Sf`Al2^lhIi4d[0
 R2
-=1-001b213b2b97-69f8c34c-15f7f-840fe
+=1-001b213b2b97-69f8c981-f37ca-85a3e
 R3
 R4
 R5
 n@_opt1
 R6
-R1
 Echar_rom
 Z7 w1777908815
 Z8 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
 Z9 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z10 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
-!i122 170
+!i122 176
 Z11 d/home/niehi139/Documents/code/uCPU/simdir
 Z12 8../char_rom.vhd
 Z13 F../char_rom.vhd
@@ -99,9 +100,9 @@ V7ckFWfA:E8`:QRIm9c1?U0
 !s100 S0cX5QOi`RPNLBZ[7Qo@g0
 Z15 OL;C;2021.3;73
 32
-Z16 !s110 1777910711
+Z16 !s110 1777912192
 !i10b 1
-Z17 !s108 1777910711.000000
+Z17 !s108 1777912192.000000
 Z18 !s90 ../uprogCPU.vhd|../vga_motor.vhd|../video_ram.vhd|../char_rom.vhd|../Mem/uMem.vhd|../Mem/pMem.vhd|../Mem/K1Mem.vhd|../Mem/K2Mem.vhd|
 Z19 !s107 ../Mem/K2Mem.vhd|../Mem/K1Mem.vhd|../Mem/pMem.vhd|../Mem/uMem.vhd|../char_rom.vhd|../video_ram.vhd|../vga_motor.vhd|../uprogCPU.vhd|
 !i113 0
@@ -111,7 +112,7 @@ R8
 R9
 R10
 DEx4 work 8 char_rom 0 22 7ckFWfA:E8`:QRIm9c1?U0
-!i122 170
+!i122 176
 l29
 L25 45
 V_I:>0iJOPSb`i3@ao8Nmk3
@@ -126,11 +127,11 @@ R19
 !i113 0
 R20
 Ek1mem
-Z21 w1777449994
+Z21 w1777911543
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
 Z22 8../Mem/K1Mem.vhd
 Z23 F../Mem/K1Mem.vhd
@@ -152,11 +153,11 @@ R8
 R9
 R10
 DEx4 work 5 k1mem 0 22 O9QB;WK:7_QNQ?1S0J_>e1
-!i122 170
+!i122 176
 l39
 L12 31
-VjL445>a5ZZmYlaE[oGm:33
-!s100 dRDT@iQ5F9AR=G^cb:hL?1
+VGR@hY7:M<cU2Q2PbKJn>23
+!s100 TKhMKc;EL8Y0Vkb:7CojX3
 R15
 32
 R16
@@ -167,14 +168,14 @@ R19
 !i113 0
 R20
 Ek2mem
-R21
+Z24 w1777449994
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z24 8../Mem/K2Mem.vhd
-Z25 F../Mem/K2Mem.vhd
+Z25 8../Mem/K2Mem.vhd
+Z26 F../Mem/K2Mem.vhd
 l0
 L6 1
 V=J[f7RVIXReU>g=R0<dMN3
@@ -193,7 +194,7 @@ R8
 R9
 R10
 DEx4 work 5 k2mem 0 22 =J[f7RVIXReU>g=R0<dMN3
-!i122 170
+!i122 176
 l27
 L12 19
 V?hPNZc9oMI9e1TfEKNzG?3
@@ -212,10 +213,10 @@ R7
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z26 8../Mem/pMem.vhd
-Z27 F../Mem/pMem.vhd
+Z27 8../Mem/pMem.vhd
+Z28 F../Mem/pMem.vhd
 l0
 L6 1
 ViVXiIoc7JNZ<hzjP3MWY13
@@ -234,7 +235,7 @@ R8
 R9
 R10
 DEx4 work 4 pmem 0 22 iVXiIoc7JNZ<hzjP3MWY13
-!i122 170
+!i122 176
 l40
 L15 40
 VV1oc:K7o5XHzFAm^zWFz:0
@@ -249,14 +250,14 @@ R19
 !i113 0
 R20
 Eumem
-Z28 w1777910564
+Z29 w1777911320
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z29 8../Mem/uMem.vhd
-Z30 F../Mem/uMem.vhd
+Z30 8../Mem/uMem.vhd
+Z31 F../Mem/uMem.vhd
 l0
 L6 1
 VP1ng]?:EBK?k5;;a@AOMZ3
@@ -275,7 +276,7 @@ R8
 R9
 R10
 DEx4 work 4 umem 0 22 P1ng]?:EBK?k5;;a@AOMZ3
-!i122 170
+!i122 176
 l73
 L12 65
 VbEa;WbVIP=Qf^UTQBLNf10
@@ -290,14 +291,14 @@ R19
 !i113 0
 R20
 Euprogcpu
-Z31 w1777910521
+Z32 w1777912187
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z32 8../uprogCPU.vhd
-Z33 F../uprogCPU.vhd
+Z33 8../uprogCPU.vhd
+Z34 F../uprogCPU.vhd
 l0
 L6 1
 VzA0ziZbB:2j74cm33EZ`E3
@@ -316,11 +317,11 @@ R8
 R9
 R10
 DEx4 work 8 uprogcpu 0 22 zA0ziZbB:2j74cm33EZ`E3
-!i122 170
-l127
-L17 296
-VBV0zenWbemOG73Z_dCl3M1
-!s100 o3986mcR0e=8aONR8zHZE2
+!i122 176
+l128
+L17 310
+VCFBdOI[NmBB4ozTJD83IS0
+!s100 k2bEXE<;5J3Ja@47DJ;RS2
 R15
 32
 R16
@@ -331,14 +332,14 @@ R19
 !i113 0
 R20
 Euprogcpu_tb
-Z34 w1777909919
+Z35 w1777909919
 R8
 R9
 R10
-!i122 171
+!i122 177
 R11
-Z35 8../uprogCPU_tb.vhd
-Z36 F../uprogCPU_tb.vhd
+Z36 8../uprogCPU_tb.vhd
+Z37 F../uprogCPU_tb.vhd
 l0
 L5 1
 Vl@i2`LaQehJaUI5WB@o[80
@@ -348,27 +349,27 @@ R15
 R16
 !i10b 1
 R17
-Z37 !s90 ../uprogCPU_tb.vhd|
-Z38 !s107 ../uprogCPU_tb.vhd|
+Z38 !s90 ../uprogCPU_tb.vhd|
+Z39 !s107 ../uprogCPU_tb.vhd|
 !i113 0
 R20
 Afunc
 R8
 R9
 R10
-Z39 DEx4 work 11 uprogcpu_tb 0 22 l@i2`LaQehJaUI5WB@o[80
-!i122 171
+DEx4 work 11 uprogcpu_tb 0 22 l@i2`LaQehJaUI5WB@o[80
+!i122 177
 l23
-Z40 L8 33
-Z41 VITYiDIAjQGj_C>h_I41lF0
-Z42 !s100 m5Z8zzePPX^=<nE:Taf7A3
+L8 33
+VITYiDIAjQGj_C>h_I41lF0
+!s100 m5Z8zzePPX^=<nE:Taf7A3
 R15
 32
 R16
 !i10b 1
 R17
-R37
 R38
+R39
 !i113 0
 R20
 Evga_motor
@@ -376,10 +377,10 @@ R7
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z43 8../vga_motor.vhd
-Z44 F../vga_motor.vhd
+Z40 8../vga_motor.vhd
+Z41 F../vga_motor.vhd
 l0
 R14
 VL?0UFfnob^MZG0RDQ2;ZQ3
@@ -398,7 +399,7 @@ R8
 R9
 R10
 DEx4 work 9 vga_motor 0 22 L?0UFfnob^MZG0RDQ2;ZQ3
-!i122 170
+!i122 176
 l53
 L31 155
 VQeU@mRG<D3b0Cl=YINU710
@@ -417,10 +418,10 @@ R7
 R8
 R9
 R10
-!i122 170
+!i122 176
 R11
-Z45 8../video_ram.vhd
-Z46 F../video_ram.vhd
+Z42 8../video_ram.vhd
+Z43 F../video_ram.vhd
 l0
 L23 1
 VgP53gR8Xl<LMUXKM^TKMU2
@@ -439,7 +440,7 @@ R8
 R9
 R10
 DEx4 work 9 video_ram 0 22 gP53gR8Xl<LMUXKM^TKMU2
-!i122 170
+!i122 176
 l48
 L40 31
 VEUA3Yc>ig7QCe2bzfKMO63

@@ -100,18 +100,19 @@ architecture func of uprogCPU is
 	signal PC : unsigned(15 downto 0); -- Program Counter
 	signal IR : unsigned(23 downto 0); -- Instruction Register
 	signal ASR : unsigned(15 downto 0); -- Address Register
-        signal SP : unsigned(15 downto 0); -- Stack Register
+    signal SP : unsigned(15 downto 0); -- Stack Register
+    signal AR : unsigned(15 downto 0); -- Add Register
 
-        -- General register signals
-        signal GR0 : unsigned(15 downto 0); -- General register 0
-        signal GR1 : unsigned(15 downto 0); -- General register 1
-        signal GR2 : unsigned(15 downto 0); -- General register 2
-        signal GR3 : unsigned(15 downto 0); -- General register 3
-        signal GR4 : unsigned(15 downto 0); -- General register 4
-        signal GR5 : unsigned(15 downto 0); -- General register 5
-        signal GR6 : unsigned(15 downto 0); -- General register 6
-        signal GR7 : unsigned(15 downto 0); -- General register 7
-        alias GRM : unsigned(2 downto 0) is IR(18 downto 16); -- General register MUX selector
+	-- General register signals
+	signal GR0 : unsigned(15 downto 0); -- General register 0
+	signal GR1 : unsigned(15 downto 0); -- General register 1
+	signal GR2 : unsigned(15 downto 0); -- General register 2
+	signal GR3 : unsigned(15 downto 0); -- General register 3
+	signal GR4 : unsigned(15 downto 0); -- General register 4
+	signal GR5 : unsigned(15 downto 0); -- General register 5
+	signal GR6 : unsigned(15 downto 0); -- General register 6
+	signal GR7 : unsigned(15 downto 0); -- General register 7
+	alias GRM : unsigned(2 downto 0) is IR(18 downto 16); -- General register MUX selector
 
         -- intermediate signals between VIDEO_RAM and VGA_MOTOR
 	signal data_out2_s : std_logic_vector(7 downto 0); -- data
@@ -226,6 +227,18 @@ begin
 		end if;
 	end process;
 
+		-- AR : Add Register
+		process(clk)
+	begin
+		if rising_edge(clk) then
+			if (rst = '1') then
+				AR <= (others => '0');
+			elsif (FB = "0101") then
+				AR <= DATA_BUS(15 downto 0);
+			end if;
+		end if;
+	end process;
+
 
         -- GRM : general register mux process (separat fil möjligt/bra?
         -- array? slipper case when, istället to_integer(grm) kan spara
@@ -305,8 +318,9 @@ begin
                 "00000000" & GR4 when (TB = "0111" and GRM = "100") else
                 "00000000" & GR5 when (TB = "0111" and GRM = "101") else
                 "00000000" & GR6 when (TB = "0111" and GRM = "110") else
-                "00000000" & GR7 when (TB = "0111" and GRM = "111") else  
+                "00000000" & GR7 when (TB = "0111" and GRM = "111") else
             -- (här bör AR, HR vara, annat vet ej)
+				"00000000" & AR when (TB = "0101") else
 		(others => '0');
 
 end architecture;
