@@ -74,8 +74,18 @@ architecture func of uprogCPU is
 			data_out2 : out std_logic_vector(7 downto 0);
 			addr2     : in unsigned(10 downto 0));
 	end component;
-            
 
+	-- picture memory component
+	component alu_comp
+		port (
+			clk      	: in std_logic;
+			clear    	: in std_logic;
+			A 			: in unsigned(3 downto 0);
+			B 			: in unsigned(3 downto 0);
+			op 			: in unsigned(3 downto 0);
+			AR_out  	: out unsigned(7 downto 0));
+	end component;
+            
 	-- micro memory signals
 	signal uM : unsigned(25 downto 0); -- micro Memory output
         alias ALU : unsigned(3 downto 0) is uM(25 downto 22); -- ALU operations                                         
@@ -101,7 +111,7 @@ architecture func of uprogCPU is
 	signal IR : unsigned(23 downto 0); -- Instruction Register
 	signal ASR : unsigned(15 downto 0); -- Address Register
     signal SP : unsigned(15 downto 0); -- Stack Register
-    signal AR : unsigned(15 downto 0); -- Add Register
+    signal AR : unsigned(7 downto 0); -- Add Register
 
 	-- General register signals
 	signal GR0 : unsigned(15 downto 0); -- General register 0
@@ -124,6 +134,9 @@ architecture func of uprogCPU is
 	-- local combinatorials
 	signal DATA_BUS : unsigned(23 downto 0); -- Data Buss
         signal ADR_BUS : unsigned (13 downto 0); -- Address buss (behov?)
+
+	-- ALU result
+	signal AR_data_out : unsigned (7 downto 0);
 
 begin
         -- RST : Reset button on BASYS3
@@ -233,7 +246,7 @@ begin
 		if rising_edge(clk) then
 			if (rst = '1') then
 				AR <= (others => '0');
-			elsif (FB = "0101") then
+			elsif (ALU /= "0000") then
 				AR <= DATA_BUS(15 downto 0);
 			end if;
 		end if;
@@ -286,24 +299,27 @@ begin
 	-- program memory component connection
 	U1 : pMem port map(pAddr=>ASR, pData_i=>PMI, pData_o=>PM, clk=>clk, we=>WE);
 
-        -- K1  memory component connection
-        U2 : K1Mem port map(OP=>IR(23 downto 19), K1_data=>K1); -- OP=>IR 24 downto 20, K1_data=>K1? k1=op?
-        
-        -- K2 memory component connection
-        U3 : K2Mem port map(M=>IR(15 downto 14), K2_data=>K2); -- M=>IR..., K2_data=>K2 kalla k2 för adrmod?
+	-- K1  memory component connection
+	U2 : K1Mem port map(OP=>IR(23 downto 19), K1_data=>K1); -- OP=>IR 24 downto 20, K1_data=>K1? k1=op?
+	
+	-- K2 memory component connection
+	U3 : K2Mem port map(M=>IR(15 downto 14), K2_data=>K2); -- M=>IR..., K2_data=>K2 kalla k2 för adrmod?
 
-        -- VGA motor component connection
+    -- VGA motor component connection
 	U4 : vga_motor port map(clk=>clk, clear=>rst, VR_data=>data_out2_s, VR_addr=>addr2_s, vgaRed=>vgaRed, vgaGreen=>vgaGreen, vgaBlue=>vgaBlue, Hsync=>Hsync, Vsync=>Vsync);
 
-        -- Picture memory component connection
-        -- 1 kopplad till cpu , 2 kopplad till vga motor
-        U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
+	-- Picture memory component connection
+	-- 1 kopplad till cpu , 2 kopplad till vga motor
+	U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
 
-        -- VRAM/ROM comp connection behövs sen
-        -- för att koppla signaler från den till vga_motor
-        
-        -- Adressavkodning
-        -- dataminne, video_ram, io?
+	-- alu connection
+	U6 : alu_comp port map(AR_out=>AR_data_out, A=>AR(3 downto 0), B=>AR_data_out(3 downto 0), clk=>clk, clear=>rst, op=>ALU);
+
+	-- VRAM/ROM comp connection behövs sen
+	-- för att koppla signaler från den till vga_motor
+	
+	-- Adressavkodning
+	-- dataminne, video_ram, io?
         
 	-- data bus assignment (sign extension bra?, slippa 15downto0 & "0000...?)
 	DATA_BUS <=  IR when (TB = "0001") else

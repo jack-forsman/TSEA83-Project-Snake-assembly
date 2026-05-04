@@ -17,22 +17,33 @@ architecture Behavioral of pMem is
 -- program Memory
 type p_mem_t is array (0 to 15) of unsigned(23 downto 0);
 constant p_mem_c : p_mem_t :=
-  (x"004000", --Load GR0 AA
-   x"0000AA", -- AA
-   x"074000", -- LOAD GR7 AF
-   x"0000AF", -- AF
-   x"000000", -- LOAD GR0 PM(0) 
-   x"120007", -- STORE, PM(7) := GR2(0)
-   x"084000", -- JUMP PM(next adr)
-   x"00000A", -- A
-   x"084000", -- JUMP PM(next adr)
-   x"00000F", -- F 
-   x"000000",
-   x"000000",
-   x"000000",
-   x"000000",
-   x"000000",
-   x"000000");
+  (
+    x"004000", --Load GR0 01
+    x"000001", -- 01
+    x"074000", -- LOAD GR7 01
+    x"000001", -- 01
+    x"000000", -- LOAD GR0 PM(0)  
+    x"120007", -- STORE, PM(7) := GR2(0)
+    x"084000", -- JUMP PM(next adr)
+    x"00000A", -- A
+    x"084000", -- JUMP PM(next adr)
+    x"00000F", -- F
+  --  x"004000", --Load GR0 AA
+  --  x"0000AA", -- AA
+  --  x"074000", -- LOAD GR7 AF
+  --  x"0000AF", -- AF
+  --  x"000000", -- LOAD GR0 PM(0) 
+  --  x"120007", -- STORE, PM(7) := GR2(0)
+  --  x"084000", -- JUMP PM(next adr)
+  --  x"00000A", -- A
+  --  x"084000", -- JUMP PM(next adr)
+  --  x"00000F", -- F 
+    x"000000",
+    x"000000",
+    x"000000",
+    x"000000",
+    x"000000",
+    x"000000");
 
   signal p_mem : p_mem_t := p_mem_c;
 
