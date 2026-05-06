@@ -111,7 +111,7 @@ architecture func of uprogCPU is
 	signal IR : unsigned(23 downto 0); -- Instruction Register
 	signal ASR : unsigned(15 downto 0); -- Address Register
     signal SP : unsigned(15 downto 0); -- Stack Register
-    signal AR : unsigned(7 downto 0); -- Add Register
+    signal AR_in : unsigned(3 downto 0); -- Add Register
 
 	-- General register signals
 	signal GR0 : unsigned(15 downto 0); -- General register 0
@@ -136,7 +136,7 @@ architecture func of uprogCPU is
         signal ADR_BUS : unsigned (13 downto 0); -- Address buss (behov?)
 
 	-- ALU result
-	signal AR_data_out : unsigned (7 downto 0);
+	signal AR_out : unsigned (7 downto 0);
 
 begin
         -- RST : Reset button on BASYS3
@@ -245,9 +245,9 @@ begin
 	begin
 		if rising_edge(clk) then
 			if (rst = '1') then
-				AR <= (others => '0');
+				AR_in <= (others => '0');
 			elsif (ALU /= "0000") then
-				AR <= DATA_BUS(15 downto 0);
+				AR_in <= DATA_BUS(3 downto 0);
 			end if;
 		end if;
 	end process;
@@ -313,7 +313,7 @@ begin
 	U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
 
 	-- alu connection
-	U6 : alu_comp port map(AR_out=>AR_data_out, A=>AR(3 downto 0), B=>AR_data_out(3 downto 0), clk=>clk, clear=>rst, op=>ALU);
+	U6 : alu_comp port map(AR_out=>AR_out, A=>AR_in, B=>AR_out(3 downto 0), clk=>clk, clear=>rst, op=>ALU);
 
 	-- VRAM/ROM comp connection behövs sen
 	-- för att koppla signaler från den till vga_motor
@@ -336,7 +336,7 @@ begin
                 "00000000" & GR6 when (TB = "0111" and GRM = "110") else
                 "00000000" & GR7 when (TB = "0111" and GRM = "111") else
             -- (här bör AR, HR vara, annat vet ej)
-				"00000000" & AR when (TB = "0101") else
+				"00000000" & AR_out when (TB = "0101") else
 		(others => '0');
 
 end architecture;
