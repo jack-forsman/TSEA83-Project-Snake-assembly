@@ -26,16 +26,16 @@ begin
         if rising_edge(clk) then
             R <= (others => '0');
             case op is
-                when "0000" => R <= (others => '0');
-                when "0011" => R <= (others => '0');
                 when "0100" => R(4 downto 0) <= ('0'&A) + ('0'&B);
-                when "0110" => R(4 downto 0) <= ('0'&A) - ('0'&B);
-                when "0111" => R(4 downto 0) <= ('0'&A) + ('0'&B);
+                when "0101" => R(4 downto 0) <= ('0'&A) - ('0'&B);
+                when "0110" => R(4 downto 0) <= ('0'&A) & ('0'&B);
+                when "0111" => R(4 downto 0) <= ('0'&A) | ('0'&B);
+                when "1000" => R(4 downto 0) <= ('0'&A) + ('0'&B);
                 when others => null;
             end case;
         end if;
     end process;
-
+    
     AR_out <= R;
 
 end Behavioral;

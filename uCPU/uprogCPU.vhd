@@ -335,8 +335,8 @@ begin
                 "00000000" & GR5 when (TB = "0111" and GRM = "101") else
                 "00000000" & GR6 when (TB = "0111" and GRM = "110") else
                 "00000000" & GR7 when (TB = "0111" and GRM = "111") else
-            -- (här bör AR, HR vara, annat vet ej)
-				"00000000" & AR_out when (TB = "0101") else
+				"0000000000000000" & AR_out when (TB = "0101") else
+					-- (här bör AR, HR vara, annat vet ej)
 		(others => '0');
 
 end architecture;
