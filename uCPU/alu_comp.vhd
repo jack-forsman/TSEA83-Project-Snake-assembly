@@ -18,7 +18,6 @@ end alu_comp;
 architecture Behavioral of alu_comp is
 	
 	signal R : unsigned(7 downto 0);
-	signal Y : unsigned(7 downto 0);
     signal Zc, Nc, Cc, Vc : std_logic;
     signal Z, N, C, V : std_logic;
 
@@ -28,11 +27,11 @@ begin
     begin
         R <= (others => '0');
         case op is
+            when "0011" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- 0
             when "0100" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- add
             when "0101" => R(4 downto 0) <= ('0'&A) - ('0'&B); -- sub
-            -- when "0110" => R(4 downto 0) <= ('0'&A) and ('0'&B);
-            -- when "0111" => R(4 downto 0) <= ('0'&A) or ('0'&B);
-            -- when "1000" => R(4 downto 0) <= ('0'&A) + ('0'&B);
+            when "0110" => R(4 downto 0) <= ('0'&A) and ('0'&B); -- and
+            when "0111" => R(4 downto 0) <= ('0'&A) or ('0'&B); -- or
             when others => null;
         end case;
     end process;
@@ -62,7 +61,7 @@ begin
             end if;
         end if;
     end process;
-    
+
     AR_out <= R;
 
 end Behavioral;
