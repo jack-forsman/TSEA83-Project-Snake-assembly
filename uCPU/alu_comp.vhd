@@ -26,10 +26,10 @@ begin
         
     process(A, B, op)
     begin
-        Y <= (others => '0');
+        R <= (others => '0');
         case op is
-            when "0100" => Y(4 downto 0) <= ('0'&A) + ('0'&B); -- add
-            when "0101" => Y(4 downto 0) <= ('0'&A) - ('0'&B); -- sub
+            when "0100" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- add
+            when "0101" => R(4 downto 0) <= ('0'&A) - ('0'&B); -- sub
             -- when "0110" => R(4 downto 0) <= ('0'&A) and ('0'&B);
             -- when "0111" => R(4 downto 0) <= ('0'&A) or ('0'&B);
             -- when "1000" => R(4 downto 0) <= ('0'&A) + ('0'&B);
@@ -37,14 +37,14 @@ begin
         end case;
     end process;
 
-    process(clk, clear)
-    begin
-        if (clear='1') then
-            R <= (others => '0');
-        elsif rising_edge(clk) then
-            R <= Y;
-        end if;
-    end process;
+    -- process(clk, clear)
+    -- begin
+    --    if (clear='1') then
+    --        R <= (others => '0');
+    --    elsif rising_edge(clk) then
+    --        R <= Y;
+    --    end if;
+    -- end process;
 
     Zc <= '1' when R(7 downto 0)=0 else
           '0';
@@ -72,7 +72,15 @@ begin
         end if;
     end process;
     
-    AR_out <= R;
+    process(clk, clear)
+    begin
+       if (clear='1') then
+           AR_out <= (others => '0');
+       elsif rising_edge(clk) then
+           AR_out <= R;
+       end if;
+    end process;
+    --AR_out <= R;
 
 end Behavioral;
 
