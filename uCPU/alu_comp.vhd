@@ -27,7 +27,7 @@ begin
     begin
         R <= (others => '0');
         case op is
-            when "0011" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- 0
+            when "0011" => R(4 downto 0) <= "00000"; -- 0
             when "0100" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- add
             when "0101" => R(4 downto 0) <= ('0'&A) - ('0'&B); -- sub
             when "0110" => R(4 downto 0) <= ('0'&A) and ('0'&B); -- and
