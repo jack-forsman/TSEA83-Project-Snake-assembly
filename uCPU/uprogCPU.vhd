@@ -245,7 +245,7 @@ begin
 	begin
 		if rising_edge(clk) then
 			if (rst = '1') then
-				AR_in <= (others => '0');
+				AR_in <= "0000";
 			elsif (ALU /= "0000") then
 				AR_in <= DATA_BUS(3 downto 0);
 			end if;

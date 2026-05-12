@@ -12,7 +12,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # vsim -voptargs="+acc" -L work work.uprogCPU_tb 
-# Start time: 22:46:53 on May 10,2026
+# Start time: 13:50:01 on May 12,2026
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading std.standard
 # Loading std.textio(body)
@@ -58,6 +58,12 @@ run 5 ms
 #    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
 # ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
 #    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U6
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U6
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U6
 # ** Warning: NUMERIC_STD."<": metavalue detected, returning FALSE
 #    Time: 0 ns  Iteration: 0  Instance: /uprogcpu_tb/uut/U4
 # ** Warning: NUMERIC_STD.">": metavalue detected, returning FALSE
@@ -78,20 +84,20 @@ run 5 ms
 #    Time: 5 ns  Iteration: 1  Instance: /uprogcpu_tb/uut/U4/U0b
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 5 ns  Iteration: 1  Instance: /uprogcpu_tb/uut/U5
-# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
-#    Time: 5 ns  Iteration: 2  Instance: /uprogcpu_tb/uut/U4
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 5 ns  Iteration: 2  Instance: /uprogcpu_tb/uut/U0
+# ** Warning: NUMERIC_STD."=": metavalue detected, returning FALSE
+#    Time: 5 ns  Iteration: 2  Instance: /uprogcpu_tb/uut/U4
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 15 ns  Iteration: 1  Instance: /uprogcpu_tb/uut/U4/U0b
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 15 ns  Iteration: 1  Instance: /uprogcpu_tb/uut/U5
 # ** Fatal: (vsim-3421) Value 16 is out of range 0 to 15.
-#    Time: 775 ns  Iteration: 2  Process: /uprogcpu_tb/uut/U1/line__63 File: ../Mem/pMem.vhd Line: 63
+#    Time: 765 ns  Iteration: 2  Process: /uprogcpu_tb/uut/U1/line__63 File: ../Mem/pMem.vhd Line: 63
 # Fatal error in Architecture Behavioral at ../Mem/pMem.vhd line 63
 # 
 # HDL call sequence:
 # Stopped at ../Mem/pMem.vhd 63 Architecture Behavioral
 # 
-# End time: 22:59:48 on May 10,2026, Elapsed time: 0:12:55
-# Errors: 1, Warnings: 28
+# End time: 14:14:54 on May 12,2026, Elapsed time: 0:24:53
+# Errors: 1, Warnings: 31
