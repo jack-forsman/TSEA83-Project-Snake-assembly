@@ -37,15 +37,6 @@ begin
         end case;
     end process;
 
-    -- process(clk, clear)
-    -- begin
-    --    if (clear='1') then
-    --        R <= (others => '0');
-    --    elsif rising_edge(clk) then
-    --        R <= Y;
-    --    end if;
-    -- end process;
-
     Zc <= '1' when R(7 downto 0)=0 else
           '0';
 
@@ -72,15 +63,7 @@ begin
         end if;
     end process;
     
-    process(clk, clear)
-    begin
-       if (clear='1') then
-           AR_out <= (others => '0');
-       elsif rising_edge(clk) then
-           AR_out <= R;
-       end if;
-    end process;
-    --AR_out <= R;
+    AR_out <= R;
 
 end Behavioral;
 
