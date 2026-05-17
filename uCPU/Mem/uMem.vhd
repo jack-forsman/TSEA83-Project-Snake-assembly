@@ -12,7 +12,7 @@ end uMem;
 architecture Behavioral of uMem is
 
 -- micro Memory (26 bitar, 25 downto 0)
-type u_mem_t is array (0 to 32) of unsigned(25 downto 0); -- extend as needed
+type u_mem_t is array (0 to 255) of unsigned(25 downto 0); -- extend as needed
                                                           -- (max 256 so far)
 constant u_mem_c : u_mem_t :=
   --0000_0000_0000_0_0_0000_00000000
@@ -65,7 +65,8 @@ constant u_mem_c : u_mem_t :=
     b"0011_0000_0000_0_0_0000_00000000", -- AR := 0 (BRA ADR) 17
     b"0100_0011_0000_0_0_0000_00000000", -- AR := PC
     b"0111_0001_0000_0_0_0000_00000000", -- AR := AR + IR
-    b"0000_0101_0111_0_0_0011_00000000" -- GRx := AR
+    b"0000_0101_0111_0_0_0011_00000000", -- GRx := AR
+    others => (others => '0')
   );
 
  signal u_mem : u_mem_t := u_mem_c;

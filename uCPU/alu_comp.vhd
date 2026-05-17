@@ -27,6 +27,7 @@ begin
     begin
         R <= (others => '0');
         case op is
+            when "0000" => R <= (others => '0');
             when "0011" => R(4 downto 0) <= "00000"; -- 0
             when "0100" => R(4 downto 0) <= ('0'&A) + ('0'&B); -- add
             when "0101" => R(4 downto 0) <= ('0'&A) - ('0'&B); -- sub
@@ -44,7 +45,7 @@ begin
     Cc <= R(7);
 
     Vc <= (not A(3) and not B(3) and R(3)) or (A(3) and B(3) and not R(3)) when (op="0100") else
-          (not A(3) and B(3) and R(3)) or (A(3) and not B(3) and not R(3)) when (op="0100") else
+          (not A(3) and B(3) and R(3)) or (A(3) and not B(3) and not R(3)) when (op="0101") else
           '0';
 
     process(clk)
@@ -53,7 +54,8 @@ begin
             if (clear='1') then
                 Z <= '0'; N <= '0'; C <= '0'; V <= '0';
             else
-                case op is
+              case op is
+                    when "0000" => null;
                     when "0100" => Z<=Zc; N<=Nc; C<=Cc; V<=Vc; -- add
                     when "0101" => Z<=Zc; N<=Nc; C<=Cc; V<=Vc; -- sub
                     when others => null;
