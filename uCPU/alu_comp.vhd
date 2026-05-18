@@ -9,7 +9,8 @@ entity alu_comp is
         A       : in unsigned(3 downto 0);
         B       : in unsigned(3 downto 0);
         op      : in unsigned(3 downto 0);
-		AR_out  : out unsigned(7 downto 0)
+        AR_out  : out unsigned(7 downto 0);
+        Z_out : out std_logic
         );
 end alu_comp;
 
@@ -65,6 +66,7 @@ begin
     end process;
 
     AR_out <= R;
+    Z_out <= Z;
 
 end Behavioral;
 

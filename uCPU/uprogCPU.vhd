@@ -83,7 +83,8 @@ architecture func of uprogCPU is
 			A 			: in unsigned(3 downto 0);
 			B 			: in unsigned(3 downto 0);
 			op 			: in unsigned(3 downto 0);
-			AR_out  	: out unsigned(7 downto 0));
+			AR_out  	: out unsigned(7 downto 0);
+                        Z_out : out std_logic);
 	end component;
             
 	-- micro memory signals
@@ -135,9 +136,10 @@ architecture func of uprogCPU is
 	signal DATA_BUS : unsigned(23 downto 0); -- Data Buss
         signal ADR_BUS : unsigned (13 downto 0); -- Address buss (behov?)
 
-	-- ALU result
+	-- ALU signals
 	signal AR_out : unsigned (7 downto 0);
-
+        signal Z : std_logic;
+        
 begin
         -- RST : Reset button on BASYS3
 	process(clk)
@@ -165,6 +167,18 @@ begin
                               uPC <= (others => '0');
                             when "0101" =>
                               uPC <= uAddr;
+                            when "1000" =>
+                              if (Z = '0') then
+                                uPC <= uAddr;
+                              else
+                                uPC <= uPC + 1;
+                              end if;
+                            when "0100" =>
+                              if (Z = '1') then
+                                uPC <= uAddr;
+                              else
+                                uPC <= uPC + 1;
+                              end if;
                             when "1111" =>
                               --HALT
                             when others => -- sålänge uPC + 1
@@ -313,7 +327,7 @@ begin
 	U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
 
 	-- alu connection
-	U6 : alu_comp port map(AR_out=>AR_out, A=>AR, B=>DATA_BUS(3 downto 0), clk=>clk, clear=>rst, op=>ALU);
+	U6 : alu_comp port map(AR_out=>AR_out, A=>AR, B=>DATA_BUS(3 downto 0), clk=>clk, clear=>rst, op=>ALU, Z_out=>Z);
 
 	-- VRAM/ROM comp connection behövs sen
 	-- för att koppla signaler från den till vga_motor
