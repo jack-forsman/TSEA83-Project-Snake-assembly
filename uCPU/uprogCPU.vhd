@@ -26,7 +26,7 @@ architecture func of uprogCPU is
 
 	-- program Memory component
 	component pMem
-                port(pAddr : in unsigned(15 downto 0);
+                port(pAddr : in unsigned(9 downto 0);
                            we : in std_logic; -- write enable
                            clk : in std_logic;
                            pData_i : in unsigned(23 downto 0);
@@ -75,15 +75,15 @@ architecture func of uprogCPU is
 			addr2     : in unsigned(10 downto 0));
 	end component;
 
-	-- picture memory component
+	-- ALU component
 	component alu_comp
 		port (
 			clk      	: in std_logic;
 			clear    	: in std_logic;
-			A 			: in unsigned(3 downto 0);
-			B 			: in unsigned(3 downto 0);
+			A 			: in unsigned(15 downto 0);
+			B 			: in unsigned(15 downto 0);
 			op 			: in unsigned(3 downto 0);
-			AR_out  	: out unsigned(7 downto 0);
+			AR_out  	: out unsigned(15 downto 0);
                         Z_out : out std_logic);
 	end component;
             
@@ -111,8 +111,8 @@ architecture func of uprogCPU is
 	signal PC : unsigned(15 downto 0); -- Program Counter
 	signal IR : unsigned(23 downto 0); -- Instruction Register
 	signal ASR : unsigned(15 downto 0); -- Address Register
-    signal SP : unsigned(15 downto 0); -- Stack Register
-    signal AR : unsigned(3 downto 0); -- Add Register
+        signal SP : unsigned(15 downto 0); -- Stack Register
+        signal AR : unsigned(15 downto 0); -- Add Register
 
 	-- General register signals
 	signal GR0 : unsigned(15 downto 0); -- General register 0
@@ -137,8 +137,11 @@ architecture func of uprogCPU is
         signal ADR_BUS : unsigned (13 downto 0); -- Address buss (behov?)
 
 	-- ALU signals
-	signal AR_out : unsigned (7 downto 0);
+	signal AR_out : unsigned(15 downto 0);
         signal Z : std_logic;
+
+        -- Sign Extension
+        signal SE : unsigned(15 downto 0);
         
 begin
         -- RST : Reset button on BASYS3
@@ -259,9 +262,9 @@ begin
 	begin
 		if rising_edge(clk) then
 			if (rst = '1') then
-				AR <= "0000";
+				AR <= (others => '0');
 			elsif (ALU /= "0000") then
-				AR <= AR_out(3 downto 0);
+				AR <= AR_out(15 downto 0);
 			end if;
 		end if;
 	end process;
@@ -311,7 +314,7 @@ begin
 	U0 : uMem port map(uAddr=>uPC, uData=>uM);
 
 	-- program memory component connection
-	U1 : pMem port map(pAddr=>ASR, pData_i=>PMI, pData_o=>PM, clk=>clk, we=>WE);
+	U1 : pMem port map(pAddr=>ASR(9 downto 0), pData_i=>PMI, pData_o=>PM, clk=>clk, we=>WE);
 
 	-- K1  memory component connection
 	U2 : K1Mem port map(OP=>IR(23 downto 19), K1_data=>K1); -- OP=>IR 24 downto 20, K1_data=>K1? k1=op?
@@ -327,14 +330,11 @@ begin
 	U5 : video_ram port map(clk=>clk, we1=>'0', data_in1=>"00000000", addr1=>"00000000000", we2=>'0', data_in2=>"00000000", data_out2=>data_out2_s, addr2=>addr2_s);
 
 	-- alu connection
-	U6 : alu_comp port map(AR_out=>AR_out, A=>AR, B=>DATA_BUS(3 downto 0), clk=>clk, clear=>rst, op=>ALU, Z_out=>Z);
+	U6 : alu_comp port map(AR_out=>AR_out, A=>AR, B=>DATA_BUS(15 downto 0), clk=>clk, clear=>rst, op=>ALU, Z_out=>Z);
 
-	-- VRAM/ROM comp connection behövs sen
-	-- för att koppla signaler från den till vga_motor
-	
-	-- Adressavkodning
-	-- dataminne, video_ram, io?
-        
+        -- Sign extension (för BRA/BNE/BEQ, 14bit ADR -> 16 bit signed)
+        SE <= IR(13) & IR(13) & IR(13 downto 0);
+
 	-- data bus assignment (sign extension bra?, slippa 15downto0 & "0000...?)
 	DATA_BUS <=  IR when (TB = "0001") else
 		PM when (TB = "0010") else
@@ -349,8 +349,8 @@ begin
                 "00000000" & GR5 when (TB = "0111" and GRM = "101") else
                 "00000000" & GR6 when (TB = "0111" and GRM = "110") else
                 "00000000" & GR7 when (TB = "0111" and GRM = "111") else
-				"00000000000000000000" & AR when (TB = "0101") else
-					-- (här bör AR, HR vara, annat vet ej)
+                "00000000" & AR when (TB = "0101") else
+		"00000000" & SE when (TB = "1110") else
 		(others => '0');
 
 end architecture;
