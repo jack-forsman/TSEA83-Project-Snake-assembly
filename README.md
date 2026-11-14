@@ -12,7 +12,7 @@ The project was developed for the TSEA83 computer engineering course and
 demonstrates how a complete interactive application can be built from
 processor, memory, input, and video hardware.
 
-<img width="3000" height="4000" alt="71affb1b-3081-455f-b570-f470a6b2e817" src="https://github.com/user-attachments/assets/95814156-e999-44a9-958e-9e0346a60677" />
+<img width="1500" height="2000" alt="71affb1b-3081-455f-b570-f470a6b2e817" src="https://github.com/user-attachments/assets/95814156-e999-44a9-958e-9e0346a60677" />
 
 ## Features
 
