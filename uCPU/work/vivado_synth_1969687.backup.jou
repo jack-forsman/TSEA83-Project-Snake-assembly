@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Mon May 25 19:11:02 2026
+# Process ID: 1969687
+# Current directory: /home/teobo395/code/uCPU/work
+# Command line: vivado -mode batch -source /courses/TSEA83/bin/build.tcl -notrace -journal vivado_synth.jou -log vivado_synth.log -tclargs synth uprogCPU.vhd vga_motor.vhd video_ram.vhd char_rom.vhd Mem/uMem.vhd Mem/pMem.vhd Mem/K1Mem.vhd Mem/K2Mem.vhd Mem/DMem.vhd kbd_enc.vhd alu_comp.vhd Basys3.xdc
+# Log file: /home/teobo395/code/uCPU/work/vivado_synth.log
+# Journal file: /home/teobo395/code/uCPU/work/vivado_synth.jou
+# Running On: muxen2-106.ad.liu.se, OS: Linux, CPU Frequency: 2100.000 MHz, CPU Physical cores: 12, Host memory: 16198 MB
+#-----------------------------------------------------------
+source /courses/TSEA83/bin/build.tcl -notrace
